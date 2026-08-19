@@ -1,0 +1,28 @@
+.filters__search{
+    position: relative;
+    width: 100%;
+}
+
+.search__icon{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 24px;
+    top: 14px;
+}
+
+
+.search__input{
+    height: 48px;
+    padding-left: 53px;
+    border: 1px solid rgba(232, 232, 232, 1);
+    border-radius: 64px;
+    width: 100%;
+}
+
+.search__input::placeholder {
+    font-family: "Manrope", sans-serif;
+    font-size: var(--font-size-16);
+
+}
+

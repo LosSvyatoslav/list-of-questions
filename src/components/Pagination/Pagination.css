@@ -1,0 +1,25 @@
+.pagination{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination__page{
+  font-size: var(--font-size-14);
+  color: rgba(71, 71, 71, 1);
+  font-weight: var(--font-weight-500);
+  line-height: 120%;
+}
+
+.pagination_direction-btn{
+  display: flex;
+  align-items: center;
+}
+
+.active{
+  padding: 2px 6px;
+  color: var(--white-color);
+  background-color: var(--purple-color);
+  border-radius: 2px;
+}

@@ -1,0 +1,12 @@
+.main{
+    background-color:rgba(244, 244, 244, 1);
+}
+
+.main__container{
+  display: flex;
+  gap: 20px;  
+  padding-top: 41px;
+  padding-bottom: 130px; 
+  width: 100%;
+  position: relative;
+}
