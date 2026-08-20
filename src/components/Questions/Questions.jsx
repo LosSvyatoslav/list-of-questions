@@ -4,19 +4,27 @@ import "./Questions.css";
 import { QuestionsContext } from "../context/QuestionsContext";
 import { useContext } from "react";
 import filterIcon from "../../logos and images/Filter button.svg";
-import FilterBlock from "../FilterBlock/FilterBlock";
+import MobileFilterBlock from "../MobileFilterBlock/MobileFilterBlock";
 
 const Questions = () => {
-  const { currentData, openFilter, setOpenFilter } = useContext(QuestionsContext);
+  const { currentData, openFilter, setOpenFilter } =
+    useContext(QuestionsContext);
   const { data } = currentData;
 
   return (
     <div className="questions">
       <div className="questions__specialization">
         <h1 className="questions__title">Вопросы React, JavaScript</h1>
-        <img src={filterIcon} alt="Mobile filter icon" className="mobile__filter-button" onClick={() => setOpenFilter(prev => !prev)}/>
+        <button className="mobile__filter-btn" aria-expanded={openFilter} onClick={() => setOpenFilter((prev) => !prev)}>
+          <img
+            src={filterIcon}
+            alt="Mobile filter icon"
+            className="mobile__filter-icon"
+            
+          />
+        </button>
       </div>
-      {openFilter && <FilterBlock mobile={true}/>}
+      {openFilter && <MobileFilterBlock/>}
       <ul className="questions__list">
         {data.map(({ title, id, complexity, shortAnswer, rate, imageSrc }) => (
           <Question

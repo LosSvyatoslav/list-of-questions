@@ -28,16 +28,19 @@
     border-bottom: 0.5px solid rgba(232, 232, 232, 1);
 
 }
-.mobile__filter-button{
+.mobile__filter-btn{
     display: none;
+    background: none;
+    border: none;
   }
 @media (max-width: 879px) {
   .questions {
     padding: 16px 16px 40px;
     max-width: 100%;
   }
-  .mobile__filter-button{
+  .mobile__filter-btn{
     display: block;
+    justify-content: center;
   }
  }
 

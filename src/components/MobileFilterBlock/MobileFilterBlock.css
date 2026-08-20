@@ -1,0 +1,35 @@
+.mobile__filters{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background-color: var(--white-color);
+    border-radius: var(--border-radius-24);
+    padding: 24px;
+    box-shadow: 0px 4px 10px 0px rgba(106, 99, 118, 0.1);
+    width: 100%;
+    max-width: 392px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 0;
+}
+.filters__close-btn{
+    position: relative;
+    margin-bottom: 8px;
+    background: none;
+    border: none;
+}
+.close-btn__icon{
+    position: absolute;
+    right: 0;
+    width: 20px;
+}
+
+@media (max-width: 879px) {
+  .filters{
+    display: none;
+    position: absolute;
+    right: 0;
+  }
+  
+ }

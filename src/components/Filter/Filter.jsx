@@ -1,6 +1,7 @@
 import "./Filter.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import figmaIcon from "../../logos and images/Figma.svg";
+import { QuestionsContext } from "../context/QuestionsContext";
 
 const Filter = ({
   title,
@@ -9,6 +10,7 @@ const Filter = ({
   selectedFilters,
   multiple = true,
 }) => {
+  const { handlePageClick } = useContext(QuestionsContext);
   const [showAll, setShowAll] = useState(false);
 
   const visibleData = showAll ? data : data?.slice(0, 5);
@@ -16,6 +18,8 @@ const Filter = ({
   function handleOnClick({ id, values }) {
     if (!multiple) {
       setSelectedFilters(id);
+      handlePageClick(1);
+
       return;
     }
     const filterValues = values ?? [id];
@@ -43,6 +47,7 @@ const Filter = ({
           return (
             <li key={filter.id ?? filter.title}>
               <button
+                aria-pressed={isSelected}
                 className={
                   isSelected ? "filter__button selected" : "filter__button"
                 }

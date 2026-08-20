@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { QuestionsContext } from "./QuestionsContext";
 import useDebounce from "../hooks/useDebounce";
 
-const URL = "https://api.yeatwork.ru/questions/public-questions?";
+const specializationUrl = "https://api.yeatwork.ru/specializations?limit=30";
+const skillsUrl = "https://api.yeatwork.ru/skills?limit=68";
+const questionsUrl = "https://api.yeatwork.ru/questions/public-questions?";
 
 export function QuestionsProvider({ children }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,7 +13,11 @@ export function QuestionsProvider({ children }) {
   const [complexity, setComplexity] = useState([]);
   const [rating, setRating] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [openFilter, setOpenFilter] = useState(false)
+  const [openFilter, setOpenFilter] = useState(false);
+  const [skillsData, setSkillsData] = useState({});
+  const [specialization, setSpecialization] = useState({});
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
@@ -22,11 +28,46 @@ export function QuestionsProvider({ children }) {
   });
 
   useEffect(() => {
+    setError(null);
+    setIsLoading(true);
+    Promise.all([fetch(skillsUrl), fetch(specializationUrl)])
+      .then(([skillsResponse, specializationResponse]) => {
+        if (!skillsResponse.ok) {
+          throw new Error(`Skills: ${skillsResponse.status}`);
+        }
+
+        if (!specializationResponse.ok) {
+          throw new Error(`Specialization: ${specializationResponse.status}`);
+        }
+
+        return Promise.all([
+          skillsResponse.json(),
+          specializationResponse.json(),
+        ]);
+      })
+      .then(([skillsData, specializationData]) => {
+        setSkillsData(skillsData);
+        setSpecialization(specializationData);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    setError(null);
+
     const params = new URLSearchParams();
+    const controller = new AbortController();
+
     params.set("page", currentPage);
+
     if (specializationId) {
       params.set("specializationId", specializationId);
     }
+
     if (skills.length > 0) {
       params.set("skills", skills.join(","));
       params.set("skillFilterMode", "ANY");
@@ -43,8 +84,8 @@ export function QuestionsProvider({ children }) {
     if (debouncedSearchValue.trim()) {
       params.set("titleOrDescription", debouncedSearchValue.trim());
     }
-
-    fetch(`${URL}${params.toString()}`)
+  
+    fetch(`${questionsUrl}${params.toString()}`, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error: ${response.status}`);
@@ -52,17 +93,30 @@ export function QuestionsProvider({ children }) {
 
         return response.json();
       })
-      .then((data) => setCurrentData(data))
+      .then((data) => {
+        setCurrentData(data);
+      })
       .catch((error) => {
-        throw new Error(error);
-      });
-  }, [currentPage, specializationId, skills, complexity, rating, debouncedSearchValue]);
+         if (error.name !== "AbortError") {
+        setError(error);
+      }})
+      .finally(() => setIsLoading(false));
+
+      return () => controller.abort();
+  }, [
+    currentPage,
+    specializationId,
+    skills,
+    complexity,
+    rating,
+    debouncedSearchValue,
+  ]);
 
   function handleNextPage() {
-    setCurrentPage((prev) => prev + 1);
+    setCurrentPage((prev) => Math.max(prev + 1, 1));
   }
   function handlePreviousPage() {
-    setCurrentPage((prev) => prev - 1);
+    setCurrentPage((prev) => Math.min(prev - 1, 1));
   }
 
   function handlePageClick(pageNumber) {
@@ -80,6 +134,10 @@ export function QuestionsProvider({ children }) {
         rating,
         searchValue,
         openFilter,
+        skillsData,
+        specialization,
+        error,
+        isLoading,
         setSearchValue,
         setOpenFilter,
         handleNextPage,

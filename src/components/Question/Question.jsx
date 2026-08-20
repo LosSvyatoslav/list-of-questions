@@ -1,5 +1,6 @@
 import arrow from "../../logos and images/Chevrone_Down.svg";
 import dot from "../../logos and images/dot.svg";
+import DOMPurify from "dompurify";
 import "./Question.css";
 import { useState } from "react";
 
@@ -40,7 +41,7 @@ const Question = ({ title, complexity, shortAnswer, rate, imageSrc }) => {
             />
             <div
               className="question__answer"
-              dangerouslySetInnerHTML={{ __html: shortAnswer }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(shortAnswer) }}
             />
           </div>
         )}

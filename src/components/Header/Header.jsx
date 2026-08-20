@@ -26,7 +26,7 @@ const Header = () => {
                 onClick={() => setNavOpen((prev) => !prev)}
               >
                 <span className="mobile__title">Подготовка</span>
-               {navOpen  ? <img
+               {!navOpen  ? <img
                   src={arrowIcon}
                   alt="Arrow icon"
                   className="mobile__icon"
@@ -69,7 +69,7 @@ const Header = () => {
           </nav>
         </div>
 
-        <div className="burger" onClick={() => setBurgerOpen((prev) => !prev)}>
+        <button className="burger" onClick={() => setBurgerOpen((prev) => !prev)}>
           <img src={burgerMenuIcon} alt="Burger-menu icon" />
           {burgerOpen && (
             <div className="burger__buttons">
@@ -79,7 +79,7 @@ const Header = () => {
               </button>
             </div>
           )}
-        </div>
+        </button>
         <div className="header__buttons">
           <button className="button button--enter">Вход</button>
           <button className="button button--registration">Регистрация</button>
