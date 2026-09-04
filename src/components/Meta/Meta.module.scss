@@ -1,0 +1,112 @@
+.meta{
+   display: flex; 
+   flex-direction: column;
+   gap: 24px;
+   background-color: var(--white-color);
+   border-radius: var(--border-radius-24);
+   padding: 24px;
+   position: relative;
+}
+.metaMobile {
+    border-radius:0;
+    max-width: 360px;
+}
+
+.lvl, .skills, .keywords {
+   display: flex; 
+   flex-direction: column;
+   gap: 8px;
+}
+
+.paramsBox{
+     display: flex;
+    gap: 16px;
+}
+
+.title{
+    color: rgba(71, 71, 71, 1);
+}
+
+.params {
+     display: flex;
+     align-items: center;
+     gap: 12px;
+     padding: 6px 10px;
+     background: rgba(248, 248, 248, 1);
+     border-radius: var(--border-radius-8);
+
+}
+.label, .marlk {
+    font-size: var(--font-size-14); 
+    font-weight: var(--font-weight-600);
+}
+.label { 
+    color: var(--black-color-800);
+}
+
+.mark {
+    color: var(--white-color);
+    background-color: var(--purple-color);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.skillsBox{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+   .skill {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--purple-color);
+        border-radius: var(--border-radius-12);
+        padding: 10px 12px;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: fit-content;
+        img{
+            width: 20px;
+            height: 20px;
+        }
+        span {
+            color: var(--black-color-800);
+        }
+    }
+
+    .keyword {
+       font-weight: var(--font-weight-400);
+       color: var(--purple-color);
+       line-height: 160%;
+    }
+
+    .keywordsBox{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .author {
+        display: flex;
+        gap: 2px;
+        span {
+            font-size: var(--font-size-14);
+
+        }
+        span.name {
+            color: var(--purple-color)
+        }
+    }
+    .closeButton{
+        display: flex;
+        justify-content: flex-end;
+        background: none;
+        border: none;
+    }
+
+     @media (max-width: 548px) {
+   .lvl, .skills, .keywords {
+   gap: 16px;
+}
+ }

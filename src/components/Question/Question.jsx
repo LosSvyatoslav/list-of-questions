@@ -1,13 +1,18 @@
 import arrow from "../../logos and images/Chevrone_Down.svg";
 import dot from "../../logos and images/dot.svg";
+import detailsDots from "../../logos and images/details.svg";
+import arrowRight from "../../logos and images/Arrow Right.svg";
 import DOMPurify from "dompurify";
 import "./Question.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-
-const Question = ({ title, complexity, shortAnswer, rate, imageSrc }) => {
+  const Question = ({ id, title, complexity, shortAnswer, rate, imageSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const navigate = useNavigate();
+  const handleShowMore = (questionId) => {
+    navigate(`./${questionId}`)
+  };
 
   return (
     <li className="questions__item">
@@ -25,14 +30,19 @@ const Question = ({ title, complexity, shortAnswer, rate, imageSrc }) => {
         {isOpen && (
           <div className="question__details">
             <div className="questions__meta">
-              <div className="questions__parameter">
-                <span className="questions__label">Рейтинг:</span>
-                <span className="questions__value">{rate}</span>
+              <div className="questions__leftSide">
+                <div className="questions__parameter">
+                  <span className="questions__label">Рейтинг:</span>
+                  <span className="questions__value">{rate}</span>
+                </div>
+                <div className="questions__parameter">
+                  <span className="questions__label">Сложность:</span>
+                  <span className="questions__value">{complexity}</span>
+                </div>
               </div>
-              <div className="questions__parameter">
-                <span className="questions__label">Сложность:</span>
-                <span className="questions__value">{complexity}</span>
-              </div>
+              <button className="button questions__more" onClick={() => handleShowMore(id)}>
+                <img src={detailsDots} alt="show details" />
+              </button>
             </div>
             <img
               src={imageSrc}
@@ -41,8 +51,14 @@ const Question = ({ title, complexity, shortAnswer, rate, imageSrc }) => {
             />
             <div
               className="question__answer"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(shortAnswer) }}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(shortAnswer),
+              }}
             />
+            <button className="button questions__more--mobile" onClick={() => handleShowMore(id)}>
+              <span className="button__title">Подробнее</span>
+              <img src={arrowRight} alt="arrow right" />
+            </button>
           </div>
         )}
       </details>

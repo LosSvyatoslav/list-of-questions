@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     height: 64px;
+    border-bottom: 1px solid rgba(232, 232, 232, 1);
 }
 
 .header__container{

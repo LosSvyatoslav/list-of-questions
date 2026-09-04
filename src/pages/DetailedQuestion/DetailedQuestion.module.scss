@@ -1,0 +1,156 @@
+
+.page {
+     position: relative;
+     padding-top: 25px;
+     button {
+        cursor: pointer;
+     }
+}
+
+.backButton {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    margin-bottom: 24px;
+
+    &__title {
+     font-weight: var(--font-weight-500);
+     font-size: var(--font-size-16);
+     color: var(--purple-color);
+    }
+}
+
+.question{
+ display: flex;
+ gap: 20px;
+}
+
+.questionBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 804px;
+}
+
+.header, .answerShort, .answerLong{
+    background-color: var(--white-color);
+    border-radius: var(--border-radius-24);
+    box-shadow: 0px 4px 10px 0px rgba(106, 99, 118, 0.1);
+}
+
+.header, .answerShort {
+    padding: 24px;
+}
+
+.header {
+    display: flex;
+    gap: 10px;
+}
+
+.questionText{
+     position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        h2{
+            font-weight: var(--font-weight-500);
+            font-size: var(--font-size-24);
+            line-height: 120%;
+            color: var(--black-color-800);
+            
+        }
+        span{
+            font-weight: var(--font-weight-500);
+            line-height: 130%;
+            color: rgba(71, 71, 71, 1);
+
+        }
+}
+.questionTitle{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.questionIcon{
+    width: 160px;
+    height: 160px;
+}
+
+
+.answerTitle {
+    margin-bottom: 20px;
+    font-size: var(--font-size-20);
+    color: var(--black-color-800);
+}
+.rightSide{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.filterIcon{
+    width: 36px;
+    height: 36px;
+
+}
+.filterButton{
+   display: none;
+   background: none;
+   border: none;
+   right: 0;
+}
+
+.metaMobile{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 360px;
+}
+
+ @media (max-width: 879px) {
+    .filterButton{
+    display: block;
+}
+    .question {
+        flex-direction: column;
+        
+    }
+
+    .meta{
+        display: none;
+    }
+
+    .header {
+    padding: 16px;
+}
+    .answerShort{
+        padding: 20px 16px;
+    }
+    .questionBlock {
+    max-width: 100%;
+}
+}
+
+ @media (max-width: 548px) {
+  .header {
+   flex-direction: column;
+}
+  .questionIcon{
+    width: 100%;
+    height: 100%;
+}
+    .questionTitle h2 {
+        font-size: var(--font-size-20);
+    }
+     .header {
+    padding: 10px;
+}
+    .answerShort{
+        padding: 20px 10px;
+    }
+}
+

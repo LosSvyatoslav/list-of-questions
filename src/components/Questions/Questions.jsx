@@ -29,6 +29,7 @@ const Questions = () => {
         {data.map(({ title, id, complexity, shortAnswer, rate, imageSrc }) => (
           <Question
             key={id}
+            id={id}
             title={title}
             complexity={complexity}
             shortAnswer={shortAnswer}

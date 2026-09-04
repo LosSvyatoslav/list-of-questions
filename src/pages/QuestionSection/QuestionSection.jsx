@@ -1,15 +1,16 @@
 import { useContext } from "react";
-import FilterBlock from "../FilterBlock/FilterBlock";
-import Questions from "../Questions/Questions";
+import FilterBlock from "../../components/FilterBlock/FilterBlock";
+
+import Questions from "../../components/Questions/Questions";
 import "./QuestionSection.css";
-import { QuestionsContext } from "../context/QuestionsContext";
+import { QuestionsContext } from "../../components/context/QuestionsContext";
+import Loader from "../../components/Loader/Loader";
 
 const QuestionSection = () => {
   const { isLoading, error, currentData } = useContext(QuestionsContext);
   return (
-    <main className="main">
       <div className="container main__container">
-        {isLoading && <p>Загрузка...</p>}
+        {isLoading && <Loader/>}
 
         {error && <p>Произошла ошибка при загрузке</p>}
 
@@ -23,7 +24,7 @@ const QuestionSection = () => {
           </>
         )}
       </div>
-    </main>
+
   );
 };
 

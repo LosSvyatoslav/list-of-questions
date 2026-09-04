@@ -4,7 +4,8 @@ import useDebounce from "../hooks/useDebounce";
 
 const specializationUrl = "https://api.yeatwork.ru/specializations?limit=30";
 const skillsUrl = "https://api.yeatwork.ru/skills?limit=68";
-const questionsUrl = "https://api.yeatwork.ru/questions/public-questions?";
+export const questionsUrl =
+  "https://api.yeatwork.ru/questions/public-questions";
 
 export function QuestionsProvider({ children }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +18,7 @@ export function QuestionsProvider({ children }) {
   const [skillsData, setSkillsData] = useState({});
   const [specialization, setSpecialization] = useState({});
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
@@ -29,7 +30,6 @@ export function QuestionsProvider({ children }) {
 
   useEffect(() => {
     setError(null);
-    setIsLoading(true);
     Promise.all([fetch(skillsUrl), fetch(specializationUrl)])
       .then(([skillsResponse, specializationResponse]) => {
         if (!skillsResponse.ok) {
@@ -52,7 +52,6 @@ export function QuestionsProvider({ children }) {
       .catch((error) => {
         setError(error);
       })
-      .finally(() => setIsLoading(false));
   }, []);
 
   useEffect(() => {
@@ -84,8 +83,8 @@ export function QuestionsProvider({ children }) {
     if (debouncedSearchValue.trim()) {
       params.set("titleOrDescription", debouncedSearchValue.trim());
     }
-  
-    fetch(`${questionsUrl}${params.toString()}`, { signal: controller.signal })
+
+    fetch(`${questionsUrl}?${params.toString()}`, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error: ${response.status}`);
@@ -97,12 +96,13 @@ export function QuestionsProvider({ children }) {
         setCurrentData(data);
       })
       .catch((error) => {
-         if (error.name !== "AbortError") {
-        setError(error);
-      }})
+        if (error.name !== "AbortError") {
+          setError(error);
+        }
+      })
       .finally(() => setIsLoading(false));
 
-      return () => controller.abort();
+    return () => controller.abort();
   }, [
     currentPage,
     specializationId,
@@ -147,6 +147,7 @@ export function QuestionsProvider({ children }) {
         setSkills,
         setComplexity,
         setRating,
+        setCurrentPage
       }}
     >
       {children}
