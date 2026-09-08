@@ -9,7 +9,8 @@ const Search = () => {
   const { searchValue, setSearchValue, handlePageClick } = useContext(QuestionsContext);
 
   const handleSearch = (e) => {
-    setSearchValue(e.target.value)
+    const value = e.target.value;
+    setSearchValue(value)
     handlePageClick(1);
   }
   

@@ -16,7 +16,11 @@ import { useState } from "react";
 const DetailedQuestion = () => {
   const { questionId } = useParams();
   const navigate = useNavigate();
-  const question = useFetch(`${questionsUrl}/${questionId}`);
+  const {
+    data: question,
+    error,
+    isLoading,
+  } = useFetch(`${questionsUrl}/${questionId}`);
   const [isMetaOpen, setIsMetaOpen] = useState();
 
   const handleOpenMeta = () => {
@@ -25,13 +29,20 @@ const DetailedQuestion = () => {
 
   const handleCloseMeta = () => {
     setIsMetaOpen((prev) => !prev);
-  }
+  };
 
   const handleClickBack = () => {
     navigate("/public-questions");
   };
-  if (!question) {
+  if (isLoading) {
     return <Loader />;
+  }
+  if (error) {
+    return <p>Не удалось загрузить вопрос</p>;
+  }
+
+  if (!question) {
+    return <p>Вопрос не найден</p>;
   }
   const {
     title,
@@ -78,19 +89,19 @@ const DetailedQuestion = () => {
               </div>
             </div>
 
-              {isMetaOpen && (
-                    <div className={styles.metaMobile}>
-                      <Meta
-                        handleCloseMeta={handleCloseMeta}
-                        isMetaOpen={isMetaOpen}
-                        rate={rate}
-                        complexity={complexity}
-                        questionSkills={questionSkills}
-                        keywords={keywords}
-                        author={author}
-                      />
-                    </div>
-                  )}
+            {isMetaOpen && (
+              <div className={styles.metaMobile}>
+                <Meta
+                  handleCloseMeta={handleCloseMeta}
+                  isMetaOpen={isMetaOpen}
+                  rate={rate}
+                  complexity={complexity}
+                  questionSkills={questionSkills}
+                  keywords={keywords}
+                  author={author}
+                />
+              </div>
+            )}
 
             <DetailedQuestionNavigation />
 

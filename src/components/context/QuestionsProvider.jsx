@@ -19,6 +19,7 @@ export function QuestionsProvider({ children }) {
   const [specialization, setSpecialization] = useState({});
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [navigationIds, setNavigationIds] = useState([]);
 
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
@@ -51,7 +52,60 @@ export function QuestionsProvider({ children }) {
       })
       .catch((error) => {
         setError(error);
-      })
+      });
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function fetchNavigationQuestions() {
+      try {
+        const limit = 1000;
+
+        const response = await fetch(`${questionsUrl}?page=1&limit=${limit}`, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const firstData = await response.json();
+
+        const totalPages = Math.ceil(firstData.total / limit);
+
+        const pages = [firstData];
+
+        for (let page = 2; page <= totalPages; page++) {
+          const response = await fetch(
+            `${questionsUrl}?page=${page}&limit=${limit}`,
+            {
+              signal: controller.signal,
+            },
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+          }
+
+          pages.push(await response.json());
+        }
+
+        const navigationIds = pages.flatMap((page) =>
+          page.data.map(({ id }) => id),
+        );
+
+        setNavigationIds(navigationIds);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error(error);
+        }
+      }
+    }
+
+    fetchNavigationQuestions();
+
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -116,7 +170,7 @@ export function QuestionsProvider({ children }) {
     setCurrentPage((prev) => Math.max(prev + 1, 1));
   }
   function handlePreviousPage() {
-    setCurrentPage((prev) => Math.min(prev - 1, 1));
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
   }
 
   function handlePageClick(pageNumber) {
@@ -138,6 +192,7 @@ export function QuestionsProvider({ children }) {
         specialization,
         error,
         isLoading,
+        navigationIds,
         setSearchValue,
         setOpenFilter,
         handleNextPage,
@@ -147,7 +202,7 @@ export function QuestionsProvider({ children }) {
         setSkills,
         setComplexity,
         setRating,
-        setCurrentPage
+        setCurrentPage,
       }}
     >
       {children}
