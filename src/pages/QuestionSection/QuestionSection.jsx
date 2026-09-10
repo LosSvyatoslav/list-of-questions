@@ -10,7 +10,7 @@ const QuestionSection = () => {
   const { isLoading, error, currentData } = useContext(QuestionsContext);
   return (
     <div className="container main__container">
-
+     {isLoading && <p>Загрузка...</p>}
       {error && <p>Произошла ошибка при загрузке</p>}
 
       {!error && currentData.data.length === 0 && !isLoading && (
@@ -24,7 +24,7 @@ const QuestionSection = () => {
           <FilterBlock />
         </>
       )}
-       {isLoading && <div>Загрузка...</div>}
+  
     </div>
   );
 };
