@@ -11,7 +11,7 @@ export const useFetch = (url) => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await fetch(url, { signal: controller.signsl });
+        const response = await fetch(url, { signal: controller.signal });
         if (!response.ok) {
           throw new Error("Ошибка при запросе данных");
         }

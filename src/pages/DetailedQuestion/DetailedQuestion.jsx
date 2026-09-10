@@ -34,7 +34,7 @@ const DetailedQuestion = () => {
   const handleClickBack = () => {
     navigate("/public-questions");
   };
-  if (isLoading) {
+  if (!question && isLoading) {
     return <Loader />;
   }
   if (error) {

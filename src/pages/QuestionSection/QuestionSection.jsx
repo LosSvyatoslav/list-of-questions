@@ -10,21 +10,21 @@ const QuestionSection = () => {
   const { isLoading, error, currentData } = useContext(QuestionsContext);
   return (
     <div className="container main__container">
-      {isLoading && <Loader />}
 
       {error && <p>Произошла ошибка при загрузке</p>}
 
-      {!isLoading && !error && currentData.data.length === 0 && (
+      {!error && currentData.data.length === 0 && !isLoading && (
         <div className="notFound">
           <p>Ничего не найдено</p> <FilterBlock />
         </div>
       )}
-      {!isLoading && !error && currentData.data.length > 0 && (
+      {!error && currentData.data.length > 0 && (
         <>
           <Questions />
           <FilterBlock />
         </>
       )}
+       {isLoading && <div>Загрузка...</div>}
     </div>
   );
 };
