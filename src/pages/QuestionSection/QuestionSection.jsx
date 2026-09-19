@@ -4,7 +4,6 @@ import FilterBlock from "../../components/FilterBlock/FilterBlock";
 import Questions from "../../components/Questions/Questions";
 import "./QuestionSection.css";
 import { QuestionsContext } from "../../components/context/QuestionsContext";
-import Loader from "../../components/Loader/Loader";
 
 const QuestionSection = () => {
   const { isLoading, error, currentData } = useContext(QuestionsContext);
