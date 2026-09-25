@@ -1,7 +1,7 @@
 import styles from "./DetailedQuestionNavigation.module.scss";
 import arrowLeftBlack from "../../logos and images/Arrow Left Black.svg";
 import arrowRightBlack from "../../logos and images/Arrow Right Black.svg";
-import { useContext, useEffect, useState } from "react";
+import { useContext} from "react";
 import { QuestionsContext } from "../context/QuestionsContext";
 import { useNavigate, useParams } from "react-router-dom";
 
